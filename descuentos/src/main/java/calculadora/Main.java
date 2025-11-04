@@ -32,28 +32,30 @@ public class Main {
                     option = sc.nextLine();
                     switch (option) {
                         case "Regular":
-                            productos.calcularPrecio(dr);
-                            System.out.printf("Precio original: %.2f descuento: %.2f%% precio final: %.2f%n", productos.getCost(), dr * 100, productos.getFinalCost());
+                            tipoDeCompra(productos, dr);
                             break;
                         case "Plata":
-                            productos.calcularPrecio(dp);
-                            System.out.printf("Precio original: %.2f descuento: %.2f%% precio final: %.2f%n", productos.getCost(), dp * 100, productos.getFinalCost());
+                            tipoDeCompra(productos, dp);
                             break;
                         case "Oro":
-                            productos.calcularPrecio(dO);
-                            System.out.printf("Precio original: %.2f descuento: %.2f%% precio final: %.2f%n", productos.getCost(), dO * 100, productos.getFinalCost());
+                            tipoDeCompra(productos, dO);
                             break;
                         case "Platino":
-                            productos.calcularPrecio(dP);
-                            System.out.printf("Precio original: %.2f descuento: %.2f%% precio final: %.2f%n", productos.getCost(), dP * 100, productos.getFinalCost());
+                            tipoDeCompra(productos, dP);
                             break;
                         default:
                             System.out.println("pusiste mal el tipo de cliente, se pone como Regular");
-                            productos.calcularPrecio(dr);
+                            tipoDeCompra(productos, dr);
                             break;
                     }
-                    System.out.println("Gracias por comprar " + productos.getName());
-                    list.add(productos);
+                    if (productos.getCost() > 0) {
+                        System.out.println("Gracias por comprar " + productos.getName());
+                        list.add(productos);
+                    }
+                    else{
+                        System.out.println("no se añade a la compra porque vale 0");
+                    }
+                    
                     break;
                 case "salir":
                     func = false;
@@ -74,5 +76,15 @@ public class Main {
             }
         }
         sc.close();
+    }
+    private static void tipoDeCompra(Productos productos, double desc){
+        if(productos.getCost() > 100){
+            productos.calcularPrecio(desc + 0.05);
+        }
+        else{
+            productos.calcularPrecio(desc);
+        }
+        System.out.printf("Precio original: %.2f descuento: %.2f%% precio final: %.2f%n", productos.getCost(),(productos.getCost() > 100) ? (desc + 0.05) * 100 : desc * 100, productos.getFinalCost());
+                            
     }
 }
